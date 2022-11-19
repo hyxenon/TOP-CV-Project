@@ -1,11 +1,11 @@
-import { useState } from "react";
+
 
 export const PersonalDetails = (props) => {
 
-  const [section, setSection] = useState("Personal Details")
+  const section = "Personal Details"
 
   return (
-    <div className="h-[846px] w-full bg-white border-2 border-black rounded-md">
+    <div className="">
       <div className="ml-6 mt-11 w-full grid grid-cols-[100px,1fr] justify-center items-center">
         <label className="w-full  font-cabin font-bold" htmlFor="photo">
           Photo Url

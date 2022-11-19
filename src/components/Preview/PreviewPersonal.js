@@ -1,8 +1,8 @@
 export const PreviewPersonal = (props) => {
     return (
-        <div className="h-[846px] w-full bg-color1 border-2 border-black rounded-md">
+        <div>
             <div className="ml-10 mt-4 flex">
-                <img className="w-[167px] h-[183px] object-cover" src={props.photo} alt="" />
+                <img className="w-[167px] h-[183px] object-cover" src={props.photo} alt="CV Profile" />
                 <div className="w-full">
                     <div className="w-[90%] border-[3px] m-auto mt-11 border-black"></div>
                     <h1 className="font-montserrat font-bold text-3xl ml-9 mt-3 uppercase">{props.firstName}</h1>

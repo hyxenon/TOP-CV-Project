@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 
 import './App.css';
 import { PersonalDetails } from './components/Edit/PersonalDetails';
+import { ProfessionalExperience } from './components/Edit/ProfessionalExperience';
+import { ProfessionalSummary } from './components/Edit/ProfessionalSummary';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
+import { PreviewExperience } from './components/Preview/PreviewExperience';
 import { PreviewPersonal } from './components/Preview/PreviewPersonal';
+import { PreviewSummary } from './components/Preview/PreviewSummary';
 
 function App() {
 
@@ -17,15 +21,14 @@ function App() {
       "job title": "Job Title",
     },
     {
-      section: "Professional Experience",
-      description: "",
-    },
-
-    {
       section: "Professional Summary",
-      date: "",
-      jobTitle: "",
-      description: "",
+      "description": "",
+    },
+    {
+      section: "Professional Experience",
+      "date": "",
+      "job title": "",
+      "description": "",
     },
     {
       section: "Skill",
@@ -81,6 +84,7 @@ useEffect(()=>{
     })
   ))
   
+  
  
 
 },[personalDetails])
@@ -102,9 +106,19 @@ function handleChange(event,section){
      
       <Header/>
       <main className='w-full mt-9 px-16 grid grid-cols-2 gap-x-5 '>
+
+        <div className="h-[846px] w-full bg-white border-2 border-black rounded-md ">
         <PersonalDetails onChange={handleChange} />
+        <ProfessionalSummary onChange={handleChange} />
+        <ProfessionalExperience />
+        </div>
+
+        <div className="min-h-[846px] w-full bg-color1 border-2 border-black rounded-md">
         <PreviewPersonal photo={formData[0].photo} firstName={formData[0]['first name']} lastName={formData[0]['last name']} jobTitle={formData[0]['job title']} />
-        
+        <PreviewSummary description={formData[1]["description"]} />
+        <PreviewExperience />
+        </div>
+
       </main>
       <Footer />
     </div>
