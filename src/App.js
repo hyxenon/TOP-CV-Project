@@ -4,10 +4,12 @@ import "./App.css";
 import { PersonalDetails } from "./components/Edit/PersonalDetails";
 import { ProfessionalExperience } from "./components/Edit/ProfessionalExperience";
 import { ProfessionalSummary } from "./components/Edit/ProfessionalSummary";
+import { Skill } from "./components/Edit/Skill";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { PreviewExperience } from "./components/Preview/PreviewExperience";
 import { PreviewPersonal } from "./components/Preview/PreviewPersonal";
+import { PreviewSkill } from "./components/Preview/PreviewSkill";
 import { PreviewSummary } from "./components/Preview/PreviewSummary";
 
 function App() {
@@ -55,7 +57,14 @@ function App() {
     description: "",
   });
 
+  const [skillsData, setSkillsData] = useState({
+    section: "Skill",
+    skills: "",
+  });
+
   const [experienceElements, setExperienceElements] = useState([]);
+
+  const [skillElements, setSkillElements] = useState([]);
 
   const personalDetails = formData[0];
 
@@ -107,12 +116,22 @@ function App() {
     });
   }
 
-  function handleExperienceChange(event) {
+  function handleExperienceChange(event, section) {
     const name = event.target.name;
-    setExperienceData((oldData) => ({
-      ...oldData,
-      [name]: event.target.value,
-    }));
+
+    if (section === "Professional Experience") {
+      setExperienceData((oldData) => ({
+        ...oldData,
+        [name]: event.target.value,
+      }));
+    }
+
+    if (section === "Skill") {
+      setSkillsData((oldData) => ({
+        ...oldData,
+        [name]: event.target.value,
+      }));
+    }
   }
 
   function addExperience(section) {
@@ -130,19 +149,21 @@ function App() {
       )
     );
 
+  
     setFormData((oldData) =>
-      oldData.map((data) => {
-        if (data.section === section) {
-          return {
-            ...data,
-            [date]: [...data[date], experienceData[date]],
-            [jobTitle]: [...data[jobTitle], experienceData[jobTitle]],
-            [description]: [...data[description], experienceData[description]],
-          };
-        } else {
-          return data;
-        }
-      })
+      oldData.map((data) =>
+        data.section === section
+          ? {
+              ...data,
+              [date]: [...data[date], experienceData[date]],
+              [jobTitle]: [...data[jobTitle], experienceData[jobTitle]],
+              [description]: [
+                ...data[description],
+                experienceData[description],
+              ],
+            }
+          : data
+      )
     );
 
     setExperienceData((oldData) => ({
@@ -153,22 +174,52 @@ function App() {
     }));
   }
 
+  function addSkill(section) {
+    setSkillElements((oldData) =>
+      oldData.concat(<PreviewSkill skill={skillsData.skills} />)
+    );
+
+    setFormData((oldData) =>
+      oldData.map((data) =>
+        data.section === section
+          ? { ...data, skills: [...data.skills, skillsData.skills] }
+          : data
+      )
+    );
+
+    setSkillsData((oldData) => ({
+      ...oldData,
+      skills: "",
+    }));
+  }
+
   return (
     <div className="App flex flex-col justify-center items-center">
       <Header />
       <main className="w-full mt-9 px-16 grid grid-cols-2 gap-x-5 ">
+        {/* -------------------   Edit LAYOUT ------------------ */}
         <div className="h-[846px] w-full bg-white border-2 border-black rounded-md ">
           <PersonalDetails onChange={handleChange} />
           <ProfessionalSummary onChange={handleChange} />
-          <ProfessionalExperience
-            onChange={handleExperienceChange}
-            onClick={addExperience}
-            date={experienceData["date"]}
-            jobTitle={experienceData["job title"]}
-            description={experienceData.description}
-          />
+
+          <div className="grid grid-cols-2">
+            <ProfessionalExperience
+              onChange={handleExperienceChange}
+              onClick={addExperience}
+              date={experienceData["date"]}
+              jobTitle={experienceData["job title"]}
+              description={experienceData.description}
+            />
+            <Skill
+              onClick={addSkill}
+              onChange={handleExperienceChange}
+              skill={skillsData.skills}
+            />
+          </div>
+          <div className="w-[95%] border-[3px] m-auto mt-11 border-black"></div>
         </div>
 
+        {/* -------------------   PREVIEW LAYOUT ------------------ */}
         <div className="min-h-[846px] w-full bg-color1 border-2 border-black rounded-md">
           <PreviewPersonal
             photo={formData[0].photo}
@@ -182,17 +233,17 @@ function App() {
             <h1 className="font-cabin font-bold uppercase">
               Professional Experience
             </h1>
-            {experienceElements}
+            <div className="grid grid-cols-2">{experienceElements}</div>
+          </div>
+          <div className="w-[90%] border-[3px] m-auto mt-11 border-black"></div>
+
+          <div className="grid grid-cols-3">
+            <div className="ml-16 mt-6">
+              <h1 className="font-cabin font-bold uppercase mb-6">Skills</h1>
+              {skillElements}
+            </div>
           </div>
         </div>
-        
-        <button
-          onClick={() => {
-            console.log(formData);
-          }}
-        >
-          Submit
-        </button>
       </main>
       <Footer />
     </div>
