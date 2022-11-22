@@ -10,7 +10,6 @@ export const ProfessionalSummary = (props) => {
           type="text"
           placeholder="Description"
           name="description"
-          
         />
       </div>
 

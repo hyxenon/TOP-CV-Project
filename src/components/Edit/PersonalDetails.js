@@ -1,8 +1,5 @@
-
-
 export const PersonalDetails = (props) => {
-
-  const section = "Personal Details"
+  const section = "Personal Details";
 
   return (
     <div className="">
@@ -18,7 +15,7 @@ export const PersonalDetails = (props) => {
             className="w-[186px] h-[19px] font-martel text-xs py-1 pl-2 border-[1.6px] border-black"
             type="text"
             placeholder="Paste url here"
-            onChange={(event)=> props.onChange(event,section)}
+            onChange={(event) => props.onChange(event, section)}
           />
         </div>
 
@@ -36,7 +33,7 @@ export const PersonalDetails = (props) => {
             className="w-[186px] h-[19px] mt-4  font-martel text-xs py-1 pl-2 border-[1.6px] border-black"
             type="text"
             placeholder="First name"
-            onChange={(event)=> props.onChange(event,section)}
+            onChange={(event) => props.onChange(event, section)}
           />
         </div>
 
@@ -54,7 +51,7 @@ export const PersonalDetails = (props) => {
             className="w-[186px] h-[19px] mt-4  font-martel text-xs py-1 pl-2 border-[1.6px] border-black"
             type="text"
             placeholder="Last name"
-            onChange={(event)=> props.onChange(event,section)}
+            onChange={(event) => props.onChange(event, section)}
           />
         </div>
 
@@ -72,7 +69,7 @@ export const PersonalDetails = (props) => {
             className="w-[186px] h-[19px] mt-4  font-martel text-xs py-1 pl-2 border-[1.6px] border-black"
             type="text"
             placeholder="Job title"
-            onChange={(event)=> props.onChange(event,section)}
+            onChange={(event) => props.onChange(event, section)}
           />
         </div>
       </div>

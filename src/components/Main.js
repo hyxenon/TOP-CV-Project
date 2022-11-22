@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { Contact } from "./Edit/Contact";
 import { Education } from "./Edit/Education";
 
 import { PersonalDetails } from "./Edit/PersonalDetails";
 import { ProfessionalExperience } from "./Edit/ProfessionalExperience";
 import { ProfessionalSummary } from "./Edit/ProfessionalSummary";
 import { Skill } from "./Edit/Skill";
+import { PreviewContact } from "./Preview/PreviewContact";
 import { PreviewEducation } from "./Preview/PreviewEducation";
 import { PreviewExperience } from "./Preview/PreviewExperience";
 import { PreviewPersonal } from "./Preview/PreviewPersonal";
@@ -42,10 +44,11 @@ export function Main() {
       description: "",
     },
     {
-      section: "Contact Number",
-      email: "",
-      website: "",
-      location: "",
+      section: "Contact",
+      "contact number": "0999-4441-321",
+      "email address": "dummy@gmail.com",
+      website: "hyxenon.com",
+      location: "dummy location",
     },
   ]);
 
@@ -62,17 +65,17 @@ export function Main() {
   });
 
   const [educationData, setEducationData] = useState({
-      section: "Education",
-      "school name": "",
-      date: "",
-      description: "",
-  })
+    section: "Education",
+    "school name": "",
+    date: "",
+    description: "",
+  });
 
   const [experienceElements, setExperienceElements] = useState([]);
 
   const [skillElements, setSkillElements] = useState([]);
-  
-  const [educationElements, setEducationElements] = useState([])
+
+  const [educationElements, setEducationElements] = useState([]);
 
   const personalDetails = formData[0];
 
@@ -142,11 +145,11 @@ export function Main() {
     }
 
     if (section === "Education") {
-        setEducationData((oldData) => ({
-          ...oldData,
-          [name]: event.target.value,
-        }));
-      }
+      setEducationData((oldData) => ({
+        ...oldData,
+        [name]: event.target.value,
+      }));
+    }
   }
 
   function addExperience(section) {
@@ -207,7 +210,7 @@ export function Main() {
     }));
   }
 
-  function addEducation(section){
+  function addEducation(section) {
     const schoolName = "school name";
     const date = "date";
     const description = "description";
@@ -229,10 +232,7 @@ export function Main() {
               ...data,
               [schoolName]: [...data[schoolName], educationData[schoolName]],
               [date]: [...data[date], educationData[date]],
-              [description]: [
-                ...data[description],
-                educationData[description],
-              ],
+              [description]: [...data[description], educationData[description]],
             }
           : data
       )
@@ -247,67 +247,72 @@ export function Main() {
   }
 
   return (
-      <main className="w-full mt-9 px-16 grid grid-cols-2 gap-x-5 ">
+    <main className="w-full mt-9 px-16 grid grid-cols-2 gap-x-5 ">
+      {/* -------------------   Edit LAYOUT ------------------ */}
+      <div className="h-[846px] w-full bg-white border-2 border-black rounded-md ">
+        <PersonalDetails onChange={handleChange} />
+        <ProfessionalSummary onChange={handleChange} />
 
-        {/* -------------------   Edit LAYOUT ------------------ */}
-        <div className="h-[846px] w-full bg-white border-2 border-black rounded-md ">
-          <PersonalDetails onChange={handleChange} />
-          <ProfessionalSummary onChange={handleChange} />
-
-          <div className="grid grid-cols-2">
-            <ProfessionalExperience
-              onChange={handleWithAddChange}
-              onClick={addExperience}
-              date={experienceData["date"]}
-              jobTitle={experienceData["job title"]}
-              description={experienceData.description}
-            />
-            <Skill
-              onClick={addSkill}
-              onChange={handleWithAddChange}
-              skill={skillsData.skills}
-            />
-            <Education 
-              onClick={addEducation}
-              onChange={handleWithAddChange}
-              schoolName={educationData["school name"]}
-              date={educationData.date}
-              description={educationData.description}
-            />
-          </div>
-          <div className="w-[95%] border-[3px] m-auto mt-11 border-black"></div>
-          
-        </div>
-
-        {/* -------------------   PREVIEW LAYOUT ------------------ */}
-        <div className="min-h-[846px] w-full bg-color1 border-2 border-black rounded-md">
-          <PreviewPersonal
-            photo={formData[0].photo}
-            firstName={formData[0]["first name"]}
-            lastName={formData[0]["last name"]}
-            jobTitle={formData[0]["job title"]}
+        <div className="grid grid-cols-2">
+          <ProfessionalExperience
+            onChange={handleWithAddChange}
+            onClick={addExperience}
+            date={experienceData["date"]}
+            jobTitle={experienceData["job title"]}
+            description={experienceData.description}
           />
-          <PreviewSummary description={formData[1]["description"]} />
-
-          <div className="ml-16 mt-6">
-            <h1 className="font-cabin font-bold uppercase">
-              Professional Experience
-            </h1>
-            <div className="grid grid-cols-2">{experienceElements}</div>
-          </div>
-          <div className="w-[90%] border-[3px] m-auto mt-11 border-black"></div>
-
-          <div className="grid grid-cols-3">
-            <div className="ml-16 mt-6">
-              <h1 className="font-cabin font-bold uppercase mb-6">Skills</h1>
-              {skillElements}
-            </div>
-            <div className="ml-16 mt-6">
-              <h1 className="font-cabin font-bold uppercase mb-6">Education</h1>
-              {educationElements}
-            </div>
-          </div>
+          <Skill
+            onClick={addSkill}
+            onChange={handleWithAddChange}
+            skill={skillsData.skills}
+          />
+          <Education
+            onClick={addEducation}
+            onChange={handleWithAddChange}
+            schoolName={educationData["school name"]}
+            date={educationData.date}
+            description={educationData.description}
+          />
+          <Contact onChange={handleChange} />
         </div>
-      </main>
+        <div className="w-[95%] border-[3px] m-auto mt-11 border-black"></div>
+      </div>
+
+      {/* -------------------   PREVIEW LAYOUT ------------------ */}
+      <div className="min-h-[846px] w-full bg-color1 border-2 border-black rounded-md">
+        <PreviewPersonal
+          photo={formData[0].photo}
+          firstName={formData[0]["first name"]}
+          lastName={formData[0]["last name"]}
+          jobTitle={formData[0]["job title"]}
+        />
+        <PreviewSummary description={formData[1]["description"]} />
+
+        <div className="ml-16 mt-6">
+          <h1 className="font-cabin font-bold uppercase">
+            Professional Experience
+          </h1>
+          <div className="grid grid-cols-2">{experienceElements}</div>
+        </div>
+        <div className="w-[90%] border-[3px] m-auto mt-11 border-black"></div>
+
+        <div className="grid grid-cols-3">
+          <div className="ml-16 mt-6">
+            <h1 className="font-cabin font-bold uppercase mb-6">Skills</h1>
+            {skillElements}
+          </div>
+          <div className="ml-10 mt-6">
+            <h1 className="font-cabin font-bold uppercase mb-6">Education</h1>
+            {educationElements}
+          </div>
+          <PreviewContact
+            contact={formData[5]["contact number"]}
+            email={formData[5]["email address"]}
+            website={formData[5].website}
+            location={formData[5].location}
+          />
+        </div>
+      </div>
+    </main>
   );
 }
